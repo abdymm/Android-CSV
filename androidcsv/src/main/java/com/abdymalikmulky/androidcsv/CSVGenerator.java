@@ -21,6 +21,9 @@ import static com.abdymalikmulky.androidcsv.CSVProperties.NEW_LINE;
 public class CSVGenerator extends CSVContent {
 
     FileHelper fileHelper;
+
+    String[] exceptionColumn;
+
     String content = "";
 
     public CSVGenerator() {
@@ -28,6 +31,7 @@ public class CSVGenerator extends CSVContent {
     }
     public CSVGenerator(String dirName,String fileName) {
         fileHelper = new FileHelper(dirName,fileName);
+        exceptionColumn = new String[0];
     }
 
     @Override
@@ -35,6 +39,14 @@ public class CSVGenerator extends CSVContent {
         super.setTitle(title);
         String titleString =   "\""+getTitle()+"\"";
         appendContent(titleString);
+    }
+
+    public String[] getExceptionColumn() {
+        return exceptionColumn;
+    }
+
+    public void setExceptionColumn(String[] exceptionColumn) {
+        this.exceptionColumn = exceptionColumn;
     }
 
     /**
@@ -93,18 +105,25 @@ public class CSVGenerator extends CSVContent {
             contentIndex=1;
         }
 
+
         String[] commSplit = content.split(COMMA);
         for (int i=0;i<commSplit.length;i++){
-            String[] equalSplit = commSplit[i].split("=");
-            contentStr = equalSplit[contentIndex];
-            if(isHeader) {
-                contentStr = contentStr.toUpperCase();
-            }
+            if(!stringContainsItemFromList(commSplit[i],exceptionColumn)) {
+                String[] equalSplit = commSplit[i].split("=");
+                contentStr = equalSplit[contentIndex];
 
-            if(i>0){
-                contentTable += COMMA;
+
+                if (isHeader) {
+                    contentStr = contentStr.toUpperCase();
+                }
+
+                if (i > 0 && !contentTable.equals("")) {
+                    contentTable = contentTable + COMMA;
+                }
+
+
+                contentTable += appendQuote(contentStr);
             }
-            contentTable += appendQuote(contentStr);
         }
 
         return contentTable;
@@ -117,7 +136,15 @@ public class CSVGenerator extends CSVContent {
      * @param <T>
      * @return
      */
+    public <T> String addTable(String tableTitle, ArrayList<T> datas,String[] exceptionColumn){
+        return addTableRoot(tableTitle, datas,exceptionColumn);
+    }
     public <T> String addTable(String tableTitle, ArrayList<T> datas){
+        return addTableRoot(tableTitle, datas,exceptionColumn);
+    }
+    private <T> String addTableRoot(String tableTitle, ArrayList<T> datas,String[] exceptionColumn){
+        setExceptionColumn(exceptionColumn);
+
         String titleString =   "\""+tableTitle+"\"";
         appendContent(titleString);
 
@@ -127,6 +154,7 @@ public class CSVGenerator extends CSVContent {
         for (int i=0;i<datas.size();i++){
             String dataObjtoString = datas.get(i).toString();
             dataObjtoString = splitContent(dataObjtoString);
+            Log.d("DATA-",dataObjtoString);
             if(i==0){
                 header = getHeaderTable(dataObjtoString);
                 appendContent(header);
@@ -140,6 +168,7 @@ public class CSVGenerator extends CSVContent {
     }
 
 
+
     public Uri generate(){
         File file = fileHelper.storeFile(content);
         Uri uri  =   Uri.fromFile(file);
@@ -151,5 +180,20 @@ public class CSVGenerator extends CSVContent {
     }
     private String appendQuote(String content){
         return "\""+content+"\"";
+    }
+    public static boolean stringContainsItemFromList(String inputStr, String[] items)
+    {
+        for(int i =0; i < items.length; i++)
+        {
+            if(inputStr.contains(items[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean indexArrayFromAnotherArray(String[] items, String[] otherItems)
+    {
+        return false;
     }
 }

@@ -28,8 +28,13 @@ public class MainActivity extends AppCompatActivity {
         csvGenerator = new CSVGenerator(getString(R.string.app_name),getString(R.string.app_name));
         csvGenerator.setTitle(getString(R.string.app_name));
 
-        csvGenerator.addTable("Data Feeder",feeders);
-        csvGenerator.addTable("Data User",users);
+        String[] exception = {"id"};
+        csvGenerator.addTable("Data Feeder",feeders,exception);
+
+        csvGenerator.addTable("Data User Full",users);
+
+        String[] exceptionUser = {"address","age"};
+        csvGenerator.addTable("Data User",users,exceptionUser);
 
 
         Uri uri = csvGenerator.generate();
@@ -49,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<User> generateDummUser(){
         ArrayList<User> users = new ArrayList<>();
         for (int i=0;i<10;i++){
-            users.add(new User(i+"Abdy",i+"Abdy",i+"Abdy",i*10));
+            users.add(new User(i+"name",i+"fullname",i+"addre",i*10));
         }
         return users;
     }
