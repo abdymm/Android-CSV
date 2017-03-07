@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
@@ -19,6 +20,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+publish {
+    groupId = 'com.github.abdymm'
+    artifactId = 'androidcsv'
+    publishVersion = '0.1.1'
+    desc = 'Library that helps to export an object into CSV'
+    licences = ['Apache-2.0']
+    uploadName='Android-CSV'
+    website = 'git@github.com:abdymm/Android-CSV.git'
 }
 
 dependencies {

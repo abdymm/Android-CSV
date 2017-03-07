@@ -1,1 +1,1 @@
-include ':app', ':androidcsv'
+include ':sample', ':androidcsv'
