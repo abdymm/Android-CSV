@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
         csvGenerator = new CSVGenerator();
         csvGenerator.setTitle("TMan");
 
-        csvGenerator.setTable("Data Feeder",feeders);
-        csvGenerator.setTable("Data User",users);
+        csvGenerator.addTable("Data Feeder",feeders);
+        csvGenerator.addTable("Data User",users);
 
 
         Uri uri = csvGenerator.generate();

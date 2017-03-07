@@ -7,4 +7,8 @@ package com.abdymalikmulky.androidcsv;
 
 public class CSVProperties {
     public final static String COMMA = ",";
+    public final static String NEW_LINE = "\n";
+    public final static String BRACKET_OPEN = "{";
+    public final static String BRACKET_CLOSE = "}";
+    public final static String APOSTROPHE = "'";
 }

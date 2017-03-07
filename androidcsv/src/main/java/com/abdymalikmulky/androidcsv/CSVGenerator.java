@@ -10,7 +10,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.abdymalikmulky.androidcsv.CSVProperties.APOSTROPHE;
+import static com.abdymalikmulky.androidcsv.CSVProperties.BRACKET_CLOSE;
 import static com.abdymalikmulky.androidcsv.CSVProperties.COMMA;
+import static com.abdymalikmulky.androidcsv.CSVProperties.NEW_LINE;
 
 /**
  * Bismillahirrahmanirrahim
@@ -24,6 +27,7 @@ public class CSVGenerator extends CSVContent {
     public CSVGenerator() {
 
     }
+
     @Override
     public void setTitle(String title) {
         super.setTitle(title);
@@ -31,30 +35,52 @@ public class CSVGenerator extends CSVContent {
         appendContent(titleString);
     }
 
+    /**
+     * Split a toString content
+     * @param content
+     * @return
+     */
     private String splitContent(String content){
         String output = "";
 
         String[] bracketSplit = content.split("\\{");
         output = bracketSplit[1];
-        output = output.replace("}","");
+        output = output.replace(BRACKET_CLOSE,"");
         output = output.replaceAll("\\s+","");
-        output = output.replaceAll("'","");
+        output = output.replaceAll(APOSTROPHE,"");
 
 
         return output;
     }
 
 
+    /**
+     * Header table like <th> parse by string content
+     * @param content
+     * @return
+     */
     private String getHeaderTable(String content){
         String headerContent = getContentTable(content,true);
 
         return headerContent;
     }
+
+    /**
+     * Header table like <td> parse by string content
+     * @param content
+     * @return
+     */
     private String getDataTable(String content){
         String dataContent = getContentTable(content,false);
 
         return dataContent;
     }
+
+    /**
+     * Content genartor for getHeaderTable() and getDataTable
+     * @param content
+     * @return
+     */
     private String getContentTable(String content,boolean isHeader){
         String contentTable = "";
         String contentStr = "";
@@ -80,7 +106,15 @@ public class CSVGenerator extends CSVContent {
 
         return contentTable;
     }
-    public <T> String setTable(String tableTitle, ArrayList<T> datas){
+
+    /**
+     * Setup Table yang akan di generate
+     * @param tableTitle
+     * @param datas
+     * @param <T>
+     * @return
+     */
+    public <T> String addTable(String tableTitle, ArrayList<T> datas){
         String titleString =   "\""+tableTitle+"\"";
         appendContent(titleString);
 
@@ -102,6 +136,7 @@ public class CSVGenerator extends CSVContent {
         return content;
     }
 
+
     public Uri generate(){
         String dirName = getTitle();
         String fileName = getTitle();
@@ -116,18 +151,11 @@ public class CSVGenerator extends CSVContent {
             Log.d("CSV-FILE",dir.getAbsolutePath());
             try {
                 out = new FileOutputStream(file);
+                out.write(content.getBytes());
+                out.close();
             } catch (FileNotFoundException e) {
                 Log.e("CSV-ERROR",e.toString());
                 e.printStackTrace();
-            }
-            try {
-                out.write(content.getBytes());
-            } catch (IOException e) {
-                Log.e("CSV-ERROR",e.toString());
-                e.printStackTrace();
-            }
-            try {
-                out.close();
             } catch (IOException e) {
                 Log.e("CSV-ERROR",e.toString());
                 e.printStackTrace();
@@ -137,7 +165,7 @@ public class CSVGenerator extends CSVContent {
         return uri;
     }
     private String appendContent(String addedContent){
-        content += addedContent+"\n";
+        content += addedContent+NEW_LINE;
         return content;
     }
     private String appendQuote(String content){
