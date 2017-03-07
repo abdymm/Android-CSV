@@ -25,7 +25,7 @@ android {
 publish {
     groupId = 'com.github.abdymm'
     artifactId = 'androidcsv'
-    publishVersion = '0.1.1'
+    publishVersion = '0.1.2'
     desc = 'Library that helps to export an object into CSV'
     licences = ['Apache-2.0']
     uploadName='Android-CSV'

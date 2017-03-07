@@ -1,13 +1,11 @@
 package com.abdymalikmulky.androidcsv;
 
 import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
+import com.abdymalikmulky.androidcsv.helper.FileHelper;
+
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.abdymalikmulky.androidcsv.CSVProperties.APOSTROPHE;
@@ -22,10 +20,14 @@ import static com.abdymalikmulky.androidcsv.CSVProperties.NEW_LINE;
 
 public class CSVGenerator extends CSVContent {
 
+    FileHelper fileHelper;
     String content = "";
 
     public CSVGenerator() {
-
+        fileHelper = new FileHelper();
+    }
+    public CSVGenerator(String dirName,String fileName) {
+        fileHelper = new FileHelper(dirName,fileName);
     }
 
     @Override
@@ -52,6 +54,7 @@ public class CSVGenerator extends CSVContent {
 
         return output;
     }
+
 
 
     /**
@@ -138,29 +141,7 @@ public class CSVGenerator extends CSVContent {
 
 
     public Uri generate(){
-        String dirName = getTitle();
-        String fileName = getTitle();
-
-        File file   = null;
-        File root   = Environment.getExternalStorageDirectory();
-        if (root.canWrite()){
-            File dir    =   new File (root.getAbsolutePath() + "/"+dirName);
-            dir.mkdirs();
-            file   =   new File(dir, fileName+".csv");
-            FileOutputStream out   =   null;
-            Log.d("CSV-FILE",dir.getAbsolutePath());
-            try {
-                out = new FileOutputStream(file);
-                out.write(content.getBytes());
-                out.close();
-            } catch (FileNotFoundException e) {
-                Log.e("CSV-ERROR",e.toString());
-                e.printStackTrace();
-            } catch (IOException e) {
-                Log.e("CSV-ERROR",e.toString());
-                e.printStackTrace();
-            }
-        }
+        File file = fileHelper.storeFile(content);
         Uri uri  =   Uri.fromFile(file);
         return uri;
     }

@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Feeder> feeders;
     ArrayList<User> users;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
         feeders = generateDummFeeder();
         users = generateDummUser();
 
-        csvGenerator = new CSVGenerator();
-        csvGenerator.setTitle("TMan");
+        csvGenerator = new CSVGenerator(getString(R.string.app_name),getString(R.string.app_name));
+        csvGenerator.setTitle(getString(R.string.app_name));
 
         csvGenerator.addTable("Data Feeder",feeders);
         csvGenerator.addTable("Data User",users);
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         Uri uri = csvGenerator.generate();
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
         sendIntent.setType("text/html");
         startActivity(sendIntent);
