@@ -154,14 +154,15 @@ public class CSVGenerator extends CSVContent {
         for (int i=0;i<datas.size();i++){
             String dataObjtoString = datas.get(i).toString();
             dataObjtoString = splitContent(dataObjtoString);
-            Log.d("DATA-",dataObjtoString);
             if(i==0){
+                Log.d("DATA-header",dataObjtoString);
                 header = getHeaderTable(dataObjtoString);
                 appendContent(header);
-            }else{
-                data = getDataTable(dataObjtoString);
-                appendContent(data);
             }
+            Log.d("DATA-content",dataObjtoString);
+            data = getDataTable(dataObjtoString);
+            appendContent(data);
+
         }
         Log.d("DATA-",content);
         return content;

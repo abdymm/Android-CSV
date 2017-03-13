@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private ArrayList<User> generateDummUser(){
         ArrayList<User> users = new ArrayList<>();
-        for (int i=0;i<10;i++){
+        for (int i=0;i<2;i++){
             users.add(new User(i+"name",i+"fullname",i+"addre",i*10));
         }
         return users;
