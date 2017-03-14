@@ -178,9 +178,10 @@ public class CSVGenerator extends CSVContent {
     }
     public Uri generate(){
         Log.d("DATA-content",content);
-
         File file = fileHelper.storeFile(content);
         Uri uri  =   Uri.fromFile(file);
+
+        clearContent();
         return uri;
     }
     public void clearContent(){

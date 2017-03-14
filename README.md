@@ -2,7 +2,7 @@
 
 library for exporting data to csv
 
-##Download
+##How to use
 
 Download via gradle : 
 
@@ -20,5 +20,7 @@ or Maven:
 </dependency>
 ```
 
-##Usage
+##How it Works
+
+
 
