@@ -28,10 +28,12 @@ public class CSVGenerator extends CSVContent {
 
     public CSVGenerator() {
         fileHelper = new FileHelper();
+        clearContent();
     }
     public CSVGenerator(String dirName,String fileName) {
         fileHelper = new FileHelper(dirName,fileName);
         exceptionColumn = new String[0];
+        clearContent();
     }
 
     @Override
@@ -39,6 +41,10 @@ public class CSVGenerator extends CSVContent {
         super.setTitle(title);
         String titleString =   "\""+getTitle()+"\"";
         appendContent(titleString);
+        addNewLine();
+    }
+    public void setSubtitle(String subtitle) {
+        appendContent(subtitle);
     }
 
     public String[] getExceptionColumn() {
@@ -136,13 +142,13 @@ public class CSVGenerator extends CSVContent {
      * @param <T>
      * @return
      */
-    public <T> String addTable(String tableTitle, ArrayList<T> datas,String[] exceptionColumn){
-        return addTableRoot(tableTitle, datas,exceptionColumn);
+    public <T> void addTable(String tableTitle, ArrayList<T> datas,String[] exceptionColumn){
+        addTableRoot(tableTitle, datas,exceptionColumn);
     }
-    public <T> String addTable(String tableTitle, ArrayList<T> datas){
-        return addTableRoot(tableTitle, datas,exceptionColumn);
+    public <T> void addTable(String tableTitle, ArrayList<T> datas){
+        addTableRoot(tableTitle, datas,exceptionColumn);
     }
-    private <T> String addTableRoot(String tableTitle, ArrayList<T> datas,String[] exceptionColumn){
+    private <T> void addTableRoot(String tableTitle, ArrayList<T> datas,String[] exceptionColumn){
         setExceptionColumn(exceptionColumn);
 
         String titleString =   "\""+tableTitle+"\"";
@@ -155,25 +161,30 @@ public class CSVGenerator extends CSVContent {
             String dataObjtoString = datas.get(i).toString();
             dataObjtoString = splitContent(dataObjtoString);
             if(i==0){
-                Log.d("DATA-header",dataObjtoString);
                 header = getHeaderTable(dataObjtoString);
                 appendContent(header);
             }
-            Log.d("DATA-content",dataObjtoString);
             data = getDataTable(dataObjtoString);
             appendContent(data);
-
         }
-        Log.d("DATA-",content);
-        return content;
+        addNewLine();
     }
-
-
-
+    public void addKeyValue(String key,String value){
+        String keyValue = key + COMMA + value + COMMA;
+        appendContent(keyValue);
+    }
+    public void addNewLine(){
+        content += COMMA+NEW_LINE;
+    }
     public Uri generate(){
+        Log.d("DATA-content",content);
+
         File file = fileHelper.storeFile(content);
         Uri uri  =   Uri.fromFile(file);
         return uri;
+    }
+    public void clearContent(){
+        content="";
     }
     private String appendContent(String addedContent){
         content += addedContent+NEW_LINE;

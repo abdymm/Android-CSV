@@ -26,20 +26,28 @@ public class MainActivity extends AppCompatActivity {
         users = generateDummUser();
 
         csvGenerator = new CSVGenerator(getString(R.string.app_name),getString(R.string.app_name));
-        csvGenerator.setTitle(getString(R.string.app_name));
+        csvGenerator.setTitle(getString(R.string.app_name)+"123");
+
+        csvGenerator.setSubtitle("DATA FEEDER");
+        csvGenerator.addKeyValue("Barcode","123456");
+        csvGenerator.addKeyValue("SSID","ASDFQWER");
+        csvGenerator.addKeyValue("Token","ASDFQWER");
+        csvGenerator.addKeyValue("Firmware","ASDFQWER");
+        csvGenerator.addKeyValue("ESP","ASDFQWER");
+        csvGenerator.addKeyValue("Customer","ASDFQWER");
+        csvGenerator.addNewLine();
 
         String[] exception = {"id"};
         csvGenerator.addTable("Data Feeder",feeders,exception);
-
         csvGenerator.addTable("Data User Full",users);
 
         String[] exceptionUser = {"address","age"};
         csvGenerator.addTable("Data User",users,exceptionUser);
 
-
         Uri uri = csvGenerator.generate();
+
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "123");
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
         sendIntent.setType("text/html");
         startActivity(sendIntent);
