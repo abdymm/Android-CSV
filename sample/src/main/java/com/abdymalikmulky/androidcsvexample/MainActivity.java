@@ -12,8 +12,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     CSVGenerator csvGenerator;
-    ArrayList<Feeder> feeders;
-    ArrayList<User> users;
+    ArrayList<ToDo> toDos;
 
 
 
@@ -22,49 +21,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        feeders = generateDummFeeder();
-        users = generateDummUser();
+        toDos = generateDummUser();
 
         csvGenerator = new CSVGenerator(getString(R.string.app_name),getString(R.string.app_name));
-        csvGenerator.setTitle(getString(R.string.app_name)+"123");
+        csvGenerator.setTitle(getString(R.string.app_name));
 
-        csvGenerator.setSubtitle("DATA FEEDER");
-        csvGenerator.addKeyValue("Barcode","123456");
-        csvGenerator.addKeyValue("SSID","ASDFQWER");
-        csvGenerator.addKeyValue("Token","ASDFQWER");
-        csvGenerator.addKeyValue("Firmware","ASDFQWER");
-        csvGenerator.addKeyValue("ESP","ASDFQWER");
-        csvGenerator.addKeyValue("Customer","ASDFQWER");
+        csvGenerator.setSubtitle("PROFILE");
+        csvGenerator.addKeyValue("Name","Abdy Malik Mulky");
+        csvGenerator.addKeyValue("Email","me@abdymalikmulky.com");
         csvGenerator.addNewLine();
 
-        String[] exception = {"id"};
-        csvGenerator.addTable("Data Feeder",feeders,exception);
-        csvGenerator.addTable("Data User Full",users);
 
-        String[] exceptionUser = {"address","age"};
-        csvGenerator.addTable("Data User",users,exceptionUser);
+        String[] exceptionUser = {"status"};
+        csvGenerator.addTable("Data ToDo", toDos,exceptionUser);
 
         Uri uri = csvGenerator.generate();
 
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "123");
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT,R.string.app_name);
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
         sendIntent.setType("text/html");
         startActivity(sendIntent);
     }
-    private ArrayList<Feeder> generateDummFeeder(){
-        ArrayList<Feeder> feeders = new ArrayList<>();
-        for (int i=0;i<10;i++){
-            feeders.add(new Feeder(i+"Id",i+"Feeder",i+"Mini"));
-        }
-        return feeders;
-    }
-    private ArrayList<User> generateDummUser(){
-        ArrayList<User> users = new ArrayList<>();
+    private ArrayList<ToDo> generateDummUser(){
+        ArrayList<ToDo> toDos = new ArrayList<>();
         for (int i=0;i<2;i++){
-            users.add(new User(i+"name",i+"fullname",i+"addre",i*10));
+            toDos.add(new ToDo(i,"Eat","Eat everything","-"));
         }
-        return users;
+        return toDos;
     }
 
 

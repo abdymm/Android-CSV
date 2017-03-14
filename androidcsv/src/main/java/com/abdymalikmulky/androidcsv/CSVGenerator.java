@@ -137,10 +137,10 @@ public class CSVGenerator extends CSVContent {
 
     /**
      * Setup Table yang akan di generate
-     * @param tableTitle
-     * @param datas
-     * @param <T>
-     * @return
+     * @param tableTitle title table
+     * @param datas data table header and row data
+     * @param <T> generic object
+     * @param exceptionColumn exception column
      */
     public <T> void addTable(String tableTitle, ArrayList<T> datas,String[] exceptionColumn){
         addTableRoot(tableTitle, datas,exceptionColumn);
