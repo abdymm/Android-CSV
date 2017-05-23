@@ -25,8 +25,8 @@ android {
 publish {
     groupId = 'com.github.abdymm'
     artifactId = 'androidcsv'
-    publishVersion = '0.1.5'
-    desc = 'add key value data and new line'
+    publishVersion = '0.1.6'
+    desc = 'clear content'
     licences = ['Apache-2.0']
     uploadName='Android-CSV'
     website = 'git@github.com:abdymm/Android-CSV.git'
