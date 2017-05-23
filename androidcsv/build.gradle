@@ -22,6 +22,7 @@ android {
     }
 }
 
+
 publish {
     groupId = 'com.github.abdymm'
     artifactId = 'androidcsv'
