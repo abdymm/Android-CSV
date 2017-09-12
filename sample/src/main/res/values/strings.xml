@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AndroidCSVExample</string>
+
+    <!--PERMISSION-->
+    <string name="allow_location_permission">Allow your location permission</string>
+    <string name="allow_storage_permission">Allow your storage permission</string>
+    <string name="setting_permission">Open Setting to Allow Location Permission</string>
+    <string name="label_setting">Setting</string>
+
+
 </resources>
